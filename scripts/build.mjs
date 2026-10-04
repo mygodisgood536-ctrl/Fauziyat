@@ -5,7 +5,7 @@
  * ordered stylesheet parts (parts/css-NN-*.css) into assets/css/styles.css.
  * Running this is how you publish an edit: change the part, re-run `npm run build`.
  */
-import { readdir, readFile, writeFile } from 'node:fs/promises';
+import { readdir, readFile, writeFile, mkdir } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -23,7 +23,12 @@ async function joinParts(dir, pattern, target) {
     chunks.push(text.trim());
   }
   const out = chunks.join('\n') + '\n';
-  await writeFile(join(root, target), out, 'utf8');
+  const dest = join(root, target);
+  // The output directory can hold no tracked file of its own (assets/css/
+  // contains only this generated bundle), and git does not track empty
+  // directories — so create it instead of failing on a fresh clone.
+  await mkdir(dirname(dest), { recursive: true });
+  await writeFile(dest, out, 'utf8');
   return { target, files, bytes: Buffer.byteLength(out) };
 }
 
