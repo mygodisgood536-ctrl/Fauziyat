@@ -1,0 +1,122 @@
+/* ==========================================================================
+   07 · Motion, reveal, mobile navigation, reduced-motion, print
+   ========================================================================== */
+
+/* ---------- reveal on scroll (only when JS is present, so no-JS never hides content) ---------- */
+
+.js .reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.75s var(--ease), transform 0.75s var(--ease);
+}
+
+.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Hero entrance sequence */
+.js .hero__text > *:nth-child(2) { transition-delay: 0.06s; }
+.js .hero__text > *:nth-child(3) { transition-delay: 0.12s; }
+.js .hero__text > *:nth-child(4) { transition-delay: 0.18s; }
+.js .hero__text > *:nth-child(5) { transition-delay: 0.24s; }
+.js .hero__text > *:nth-child(6) { transition-delay: 0.3s; }
+.js .hero__figure { transition-delay: 0.16s; }
+
+/* ---------- mobile navigation ---------- */
+
+body.nav-open { overflow: hidden; }
+
+@media (max-width: 899px) {
+  .site-header {
+    background: var(--bone-50);
+    border-bottom-color: var(--line);
+  }
+
+  .nav-toggle { display: inline-flex; }
+
+  .site-nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 95;
+    display: none;
+    background: var(--bone-50);
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 20px 34px -26px rgba(11, 17, 22, 0.55);
+  }
+
+  .site-nav.is-open {
+    display: block;
+    animation: nav-in 0.26s var(--ease);
+  }
+
+  .site-nav__list {
+    display: grid;
+    padding: 0.35rem var(--gutter) 0.9rem;
+  }
+
+  .site-nav__link {
+    display: block;
+    padding: 0.95rem 0;
+    font-size: 1.05rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .site-nav__link:last-child { border-bottom: 0; }
+  .site-nav__link::after { display: none; }
+}
+
+@keyframes nav-in {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (max-width: 400px) {
+  .brand__name { display: none; }
+}
+
+/* ---------- reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .js .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .js .timeline::after {
+    height: calc(100% - 1.1rem) !important;
+    transition: none !important;
+  }
+
+  .social__link:hover,
+  .contact-card:hover { transform: none; }
+
+  .portrait:hover img { transform: none; }
+}
+
+/* ---------- print ---------- */
+
+@media print {
+  .site-header,
+  .nav-scrim,
+  .hero__actions,
+  .contact__actions,
+  .site-footer { display: none; }
+
+  body { background: #ffffff; }
+  .section--ink { background: #ffffff; color: #000000; }
+  .js .reveal { opacity: 1 !important; transform: none !important; }
+}

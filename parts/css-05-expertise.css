@@ -1,0 +1,206 @@
+/* ==========================================================================
+   05 · Expertise clusters + entity-visibility (dark) section
+   ========================================================================== */
+
+.expertise {
+  display: grid;
+  gap: 1px;
+  margin-top: clamp(2.25rem, 1.5rem + 3vw, 3.5rem);
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.cluster {
+  position: relative;
+  padding: clamp(1.75rem, 1.2rem + 2vw, 2.5rem);
+  background: var(--bone-50);
+  transition: background-color 0.35s var(--ease);
+}
+
+.cluster:hover { background: #ffffff; }
+
+.cluster__num {
+  font-family: var(--font-mono);
+  font-size: var(--fs-meta);
+  letter-spacing: 0.16em;
+  color: var(--clay-500);
+}
+
+.cluster__title {
+  margin-top: 0.85rem;
+  font-size: var(--fs-h3);
+}
+
+.cluster__body {
+  margin-top: 0.85rem;
+  font-size: var(--fs-sm);
+  line-height: 1.7;
+  color: var(--text-muted);
+}
+
+.cluster__body em { font-style: italic; color: var(--text); }
+
+.cluster__list {
+  margin-top: 1.35rem;
+  padding-top: 1.15rem;
+  border-top: 1px solid var(--line);
+  display: grid;
+  gap: 0.55rem;
+}
+
+.cluster__list li {
+  position: relative;
+  padding-left: 1.1rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.cluster__list li::before {
+  content: "";
+  position: absolute;
+  top: 0.62em;
+  left: 0;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--pine-600);
+}
+
+@media (min-width: 760px) {
+  .expertise { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ---------- the entity chain ---------- */
+
+.chain {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: clamp(2.25rem, 1.5rem + 3vw, 3.25rem);
+  counter-reset: chain;
+}
+
+.chain__step {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 1rem 1.15rem;
+  border: 1px solid var(--line-dark);
+  border-radius: var(--radius);
+  background: rgba(243, 237, 226, 0.04);
+  transition: background-color 0.3s var(--ease), border-color 0.3s var(--ease);
+}
+
+.chain__step:hover {
+  background: rgba(243, 237, 226, 0.08);
+  border-color: rgba(243, 237, 226, 0.28);
+}
+
+.chain__num {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--clay-500);
+  color: #ffffff;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+}
+
+.chain__label {
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: var(--on-dark);
+}
+
+.chain__out {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+  padding: 1.1rem 1.25rem;
+  border-left: 2px solid var(--clay-500);
+  background: rgba(243, 237, 226, 0.05);
+  font-size: var(--fs-sm);
+  color: var(--on-dark-muted);
+}
+
+.chain__out-label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-meta);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--clay-400);
+}
+
+/* ---------- control split ---------- */
+
+.split {
+  display: grid;
+  gap: 1px;
+  margin-top: clamp(2.25rem, 1.5rem + 3vw, 3.25rem);
+  background: var(--line-dark);
+  border: 1px solid var(--line-dark);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.split__col { padding: clamp(1.5rem, 1.1rem + 1.5vw, 2rem); background: var(--ink-900); }
+
+.split__title {
+  font-family: var(--font-mono);
+  font-size: var(--fs-meta);
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--clay-400);
+}
+
+.split__list {
+  display: grid;
+  gap: 0.6rem;
+  margin-top: 1.1rem;
+}
+
+.split__list li {
+  position: relative;
+  padding-left: 1.15rem;
+  font-size: var(--fs-sm);
+  color: var(--on-dark-muted);
+}
+
+.split__list li::before {
+  content: "";
+  position: absolute;
+  top: 0.65em;
+  left: 0;
+  width: 6px;
+  height: 1px;
+  background: var(--clay-500);
+}
+
+.note {
+  margin-top: 1.75rem;
+  max-width: 68ch;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line-dark);
+  font-size: var(--fs-sm);
+  line-height: 1.75;
+  color: var(--on-dark-muted);
+}
+
+@media (min-width: 640px) {
+  .chain { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .split { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (min-width: 1000px) {
+  .chain { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}

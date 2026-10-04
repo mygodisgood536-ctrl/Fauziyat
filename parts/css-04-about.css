@@ -1,0 +1,170 @@
+/* ==========================================================================
+   04 · About + Professional journey (timeline)
+   ========================================================================== */
+
+.about {
+  display: grid;
+  gap: clamp(2.25rem, 1.5rem + 4vw, 4rem);
+  align-items: start;
+}
+
+.about__figure { position: relative; }
+
+.portrait--secondary {
+  aspect-ratio: 236 / 432;
+  max-width: 260px;
+}
+
+.portrait--secondary::before {
+  content: "";
+  position: absolute;
+  inset: 14px -14px -14px 14px;
+  border: 1px solid var(--bone-300);
+  border-radius: var(--radius);
+  z-index: -1;
+}
+
+.about__body .section-title { margin-top: 0.5rem; }
+
+/* ---------- fact list ---------- */
+
+.fact-list {
+  margin-top: 2.25rem;
+  border-top: 1px solid var(--line);
+}
+
+.fact {
+  display: grid;
+  grid-template-columns: 7.5rem minmax(0, 1fr);
+  gap: 0.5rem 1rem;
+  padding: 0.95rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.fact__key {
+  font-family: var(--font-mono);
+  font-size: var(--fs-meta);
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--clay-600);
+}
+
+.fact__value { font-size: var(--fs-sm); color: var(--text-muted); }
+
+/* ---------- timeline ---------- */
+
+.timeline {
+  position: relative;
+  margin-top: clamp(2rem, 1.5rem + 2vw, 3rem);
+  padding-left: 1.85rem;
+}
+
+/* Vertical rule + progression dot */
+.timeline::before {
+  content: "";
+  position: absolute;
+  top: 0.55rem;
+  bottom: 0.55rem;
+  left: 4px;
+  width: 1px;
+  background: var(--bone-300);
+}
+
+.js .timeline::after {
+  content: "";
+  position: absolute;
+  top: 0.55rem;
+  left: 4px;
+  width: 1px;
+  height: 0;
+  background: linear-gradient(to bottom, var(--clay-500), var(--pine-600));
+  transition: height 1.3s var(--ease) 0.25s;
+}
+
+.timeline.is-visible::after { height: calc(100% - 1.1rem); }
+
+.timeline__item { position: relative; }
+
+.timeline__item::before {
+  content: "";
+  position: absolute;
+  top: 0.42rem;
+  left: -1.85rem;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--clay-500);
+  box-shadow: 0 0 0 4px var(--bone-50);
+}
+
+.timeline__period {
+  font-family: var(--font-mono);
+  font-size: var(--fs-meta);
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--clay-600);
+}
+
+.timeline__sep { margin: 0 0.35rem; color: var(--text-faint); }
+
+.timeline__role {
+  margin-top: 0.55rem;
+  font-size: var(--fs-h3);
+}
+
+.timeline__org {
+  margin-top: 0.3rem;
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.timeline__note {
+  margin-top: 1rem;
+  max-width: 52ch;
+  font-size: var(--fs-sm);
+  line-height: 1.7;
+  color: var(--text-muted);
+}
+
+/* ---------- tag row ---------- */
+
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.tag {
+  padding: 0.4rem 0.75rem;
+  border: 1px solid var(--bone-300);
+  border-radius: 100px;
+  background: var(--bone-100);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  transition: border-color 0.25s var(--ease), color 0.25s var(--ease);
+}
+
+.tag:hover {
+  border-color: var(--clay-400);
+  color: var(--clay-600);
+}
+
+/* ---------- composed layouts ---------- */
+
+@media (min-width: 900px) {
+  .about {
+    grid-template-columns: minmax(0, 0.42fr) minmax(0, 1fr);
+    gap: clamp(3rem, 2rem + 4vw, 5.5rem);
+  }
+
+  .about__figure { position: sticky; top: 104px; }
+}
+
+@media (max-width: 480px) {
+  .fact { grid-template-columns: minmax(0, 1fr); }
+}
