@@ -1,0 +1,11 @@
+# Normalise line endings to LF everywhere.
+#
+# index.html and assets/css/styles.css are generated and committed, and the
+# project promises `npm run build` regenerates them byte-identically. Without
+# this, a Windows checkout rewrites them to CRLF, a Linux build then produces a
+# different byte sequence, and the deploy tests fail on nothing but line endings.
+* text=auto eol=lf
+
+*.jpg binary
+*.png binary
+*.woff2 binary
