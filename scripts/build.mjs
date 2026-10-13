@@ -9,7 +9,7 @@
  * origin from scripts/site-config.mjs, and sitemap.xml / robots.txt are
  * reconciled against that same value so the declared domain can never drift.
  */
-import { readdir, readFile, writeFile, mkdir } from 'node:fs/promises';
+import { readdir, readFile, writeFile, mkdir, rm, cp, access } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { SITE_URL } from './site-config.mjs';
@@ -81,6 +81,59 @@ const drifted = [
   nextRobots !== robots ? 'robots.txt' : null,
 ].filter(Boolean);
 
+/* ------------------------------------------------------------- publish step
+ *
+ * Vercel (and any static host) needs a single directory containing the
+ * finished site. Serving the repository root would also publish part-*.html,
+ * parts/, scripts/, tests/ and qa/ to the public, so the build assembles an
+ * explicit allow-list into dist/ instead.
+ */
+const OUT_DIR = 'dist';
+
+/* Files copied verbatim. Anything not listed here stays private. */
+const PUBLISH_FILES = ['index.html', 'robots.txt', 'sitemap.xml', 'site.webmanifest'];
+/* Directories copied wholesale. */
+const PUBLISH_DIRS = ['assets'];
+
+const outRoot = join(root, OUT_DIR);
+
+// Rebuilt from scratch every run so a removed asset can never linger.
+await rm(outRoot, { recursive: true, force: true });
+await mkdir(outRoot, { recursive: true });
+
+for (const file of PUBLISH_FILES) {
+  const src = join(root, file);
+  await access(src); // fail loudly rather than shipping an incomplete site
+  await cp(src, join(outRoot, file));
+}
+for (const dir of PUBLISH_DIRS) {
+  await cp(join(root, dir), join(outRoot, dir), { recursive: true });
+}
+
+/* Fail the build if the page references an asset that is not in dist/.
+   Relative URLs in index.html resolve against dist/, so this catches a broken
+   production deploy before it reaches a visitor. */
+const distHtml = await readFile(join(outRoot, 'index.html'), 'utf8');
+const missing = [];
+for (const m of distHtml.matchAll(/(?:href|src)="([^"]+)"/g)) {
+  const ref = m[1];
+  if (/^(https?:|mailto:|tel:|#|data:|\/\/)/.test(ref)) continue;
+  const clean = ref.split('#')[0].split('?')[0];
+  if (!clean) continue;
+  try {
+    await access(join(outRoot, decodeURIComponent(clean)));
+  } catch {
+    missing.push(ref);
+  }
+}
+if (missing.length) {
+  throw new Error(`dist/ is missing assets referenced by index.html:\n  ${missing.join('\n  ')}`);
+}
+
+const distTop = await readdir(outRoot, { withFileTypes: true });
+const distAll = await readdir(outRoot, { recursive: true });
+
 console.log(`built ${html.target}  from ${html.files.length} parts  (${html.bytes} bytes)`);
 console.log(`built ${css.target}  from ${css.files.length} parts  (${css.bytes} bytes)`);
+console.log(`published ${OUT_DIR}/  ${distAll.length} files (${distTop.length} top-level entries)`);
 console.log(`canonical ${SITE_URL}${drifted.length ? `  (retargeted ${drifted.join(', ')})` : ''}`);

@@ -11,12 +11,13 @@ import { spawn, spawnSync } from 'node:child_process';
 import { createServer } from 'node:http';
 import { readFile, stat } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
-import { extname, join, normalize, dirname } from 'node:path';
+import { extname, join, normalize, dirname, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
 import { fileURLToPath } from 'node:url';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const ROOT = dirname(HERE);
+/* Point at the built artifact with IQA_ROOT=dist to test what actually ships. */
+const ROOT = process.env.IQA_ROOT ? resolve(process.env.IQA_ROOT) : dirname(HERE);
 const PORT = Number(process.env.IQA_PORT) || 4322;
 
 const CHROME = [

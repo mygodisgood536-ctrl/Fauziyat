@@ -7,7 +7,7 @@
  */
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFile, stat } from 'node:fs/promises';
+import { readFile, stat, access } from 'node:fs/promises';
 import { join } from 'node:path';
 import { html, css, root, read, SITE } from './helpers.mjs';
 
@@ -102,4 +102,77 @@ test('the repository documents the build, test and deploy workflow', async () =>
   for (const section of ['npm run build', 'npm test', 'Vercel', 'fauziyatfolashade.com']) {
     assert.ok(readme.includes(section), `README.md should document "${section}"`);
   }
+});
+
+/* ------------------------------------------------- Vercel / static output */
+
+test('vercel.json publishes dist and nothing else', async () => {
+  const cfg = JSON.parse(await read('vercel.json'));
+  assert.equal(cfg.outputDirectory, 'dist', 'Vercel must publish the built directory');
+  assert.equal(cfg.buildCommand, 'npm run build', 'Vercel must run the real build');
+  assert.equal(cfg.framework, null, 'this project has no framework preset');
+  // An install step that assumes a lockfile or registry deps would break here.
+  assert.match(cfg.installCommand || 'npm install', /^npm install/);
+});
+
+test('dist/ exists after a build and contains the whole site', async () => {
+  const dist = join(root, 'dist');
+  const required = [
+    'index.html', 'robots.txt', 'sitemap.xml', 'site.webmanifest',
+    'assets/css/styles.css', 'assets/js/main.js', 'assets/favicon.svg',
+    'assets/fonts/fonts.css', 'assets/fonts/inter-latin-var.woff2',
+    'assets/fonts/fraunces-latin-var.woff2',
+    'assets/img/fauziyat-folashade-portrait.jpg',
+    'assets/img/fauziyat-folashade-portrait-02.jpg',
+    'assets/img/og-image.jpg',
+  ];
+  for (const file of required) {
+    await access(join(dist, file));
+  }
+});
+
+test('dist/ never leaks source, scripts, tests or docs', async () => {
+  const { readdir } = await import('node:fs/promises');
+  const dist = join(root, 'dist');
+  const entries = await readdir(dist, { recursive: true });
+  const forbidden = [
+    /^part-\d+.*\.html$/, /^parts\//, /^scripts\//, /^tests\//, /^qa\//,
+    /^node_modules\//, /^package(-lock)?\.json$/, /^README\.md$/, /^\.git/,
+    /\.md$/i, /\.mjs$/, /^vercel\.json$/,
+  ];
+  for (const entry of entries) {
+    const norm = entry.replace(/\\/g, '/');
+    for (const pattern of forbidden) {
+      assert.ok(!pattern.test(norm), `dist/ must not publish ${norm}`);
+    }
+  }
+});
+
+test('every asset the built page references exists inside dist/', async () => {
+  const dist = join(root, 'dist');
+  const distHtml = await readFile(join(dist, 'index.html'), 'utf8');
+  const refs = [...distHtml.matchAll(/(?:href|src)="([^"]+)"/g)]
+    .map((m) => m[1])
+    .filter((r) => !/^(https?:|mailto:|tel:|#|data:|\/\/)/.test(r));
+  assert.ok(refs.length > 0, 'expected local asset references');
+  for (const ref of refs) {
+    const clean = decodeURIComponent(ref.split('#')[0].split('?')[0]);
+    if (!clean) continue;
+    await access(join(dist, clean));
+  }
+});
+
+test('dist asset paths stay relative so they work under the deploy root', async () => {
+  const distHtml = await readFile(join(root, 'dist', 'index.html'), 'utf8');
+  const bad = [...distHtml.matchAll(/(?:href|src)="(\/[^/"][^"]*)"/g)].map((m) => m[1]);
+  assert.deepEqual(bad, [], 'root-absolute asset paths break a sub-path deploy');
+});
+
+test('sitemap and robots survive into dist with the right origin', async () => {
+  const sitemap = await readFile(join(root, 'dist', 'sitemap.xml'), 'utf8');
+  assert.ok(sitemap.includes(`<loc>${SITE}</loc>`));
+  assert.ok(sitemap.includes('http://www.sitemaps.org/schemas/sitemap/0.9'),
+    'dist sitemap lost its namespace');
+  const robots = await readFile(join(root, 'dist', 'robots.txt'), 'utf8');
+  assert.ok(robots.includes(`Sitemap: ${SITE}sitemap.xml`));
 });

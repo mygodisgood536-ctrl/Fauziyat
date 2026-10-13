@@ -50,8 +50,14 @@ parts/css-07-motion.css      ─┘
 generated and a hand edit is silently lost on the next build.
 
 `index.html` and `assets/css/styles.css` are committed on purpose so the site
-can be opened or deployed from a fresh clone without running a build first.
-They are reproducible: `npm run build` regenerates them byte-identically.
+can be opened without running a build. They are reproducible:
+`npm run build` regenerates them byte-identically.
+
+`npm run build` then assembles **`dist/`** — the deployable directory — from an
+explicit allow-list (`index.html`, `robots.txt`, `sitemap.xml`,
+`site.webmanifest`, `assets/`). `vercel.json` publishes that directory. Serving
+the repository root instead would expose `part-*.html`, `parts/`, `scripts/`,
+`tests/` and `qa/` publicly.
 
 ### The canonical domain lives in one place
 
@@ -65,47 +71,66 @@ canonical, Open Graph URL, JSON-LD `url`, sitemap or `robots.txt` by hand.
 
 ## Deploying to Vercel
 
-This is a plain static site, so Vercel needs **no framework preset and no
-`vercel.json`**. Nothing in the project requires one; adding it would only
-duplicate Vercel's defaults.
+The build publishes a dedicated **`dist/`** directory, and `vercel.json`
+declares that as the output directory so the configuration is version-controlled
+rather than living in dashboard settings.
+
+| Setting | Value | Source |
+| --- | --- | --- |
+| Framework Preset | None (`null`) | `vercel.json` |
+| Build Command | `npm run build` | `vercel.json` |
+| Output Directory | `dist` | `vercel.json` |
+| Install Command | `npm install --no-audit --no-fund` | `vercel.json` |
+| Environment variables | **none** | — |
 
 1. **Import the repository**
    Vercel dashboard → *Add New… → Project* → import `mygodisgood536-ctrl/Fauziyat`.
 
-2. **Project settings**
+2. **Accept the defaults from `vercel.json`** — it supplies the build command,
+   install command and output directory, so there is nothing to set by hand.
 
-   | Setting | Value |
-   | --- | --- |
-   | Framework Preset | **Other** |
-   | Root Directory | *(leave empty)* |
-   | Build Command | *(leave empty)* |
-   | Output Directory | *(leave empty — serves the repo root)* |
-   | Install Command | *(leave empty)* |
+3. **Deploy.** The build assembles `dist/` from an explicit allow-list:
 
-   The site is prebuilt and committed, so no install or build step is required
-   in CI. If you would rather build on Vercel, set **Build Command** to
-   `npm run build` — the output is identical.
+   ```
+   dist/index.html      dist/robots.txt     dist/sitemap.xml
+   dist/site.webmanifest
+   dist/assets/css/     dist/assets/fonts/  dist/assets/img/
+   dist/assets/js/      dist/assets/favicon.svg
+   ```
 
-3. **Environment variables: none.**
-   This site has **no environment variables at all** — no API keys, no database
-   URL, no secrets. Do not add any. `.env*` is git-ignored as a safeguard.
+   Nothing else is copied, so `part-*.html`, `parts/`, `scripts/`, `tests/`,
+   `qa/`, `package.json` and this README are never published. `tests/deploy.test.mjs`
+   enforces that allow-list, so a regression fails CI rather than leaking.
 
-4. **Deploy**, then attach the custom domain
+4. **Attach the custom domain**
    *Project → Settings → Domains → Add* → `fauziyatfolashade.com`.
    Vercel issues the DNS record; add it at your registrar and wait for the
-   certificate. `www.fauziyatfolashade.com` can be set to redirect to the apex.
+   certificate. `www.fauziyatfolashade.com` can redirect to the apex.
 
 5. **Verify after deploy**
 
    ```bash
-   curl -sI https://fauziyatfolashade.com/            # 200, text/html
+   curl -sI https://fauziyatfolashade.com/               # 200, text/html
+   curl -sI https://fauziyatfolashade.com/assets/css/styles.css
    curl -s  https://fauziyatfolashade.com/robots.txt
-   curl -s  https://fauziyatfolashade.com/sitemap.xml # namespace intact
-   curl -sI https://fauziyatfolashade.com/assets/img/og-image.jpg
+   curl -s  https://fauziyatfolashade.com/sitemap.xml    # namespace intact
+   curl -sI https://fauziyatfolashade.com/scripts/build.mjs   # must 404
    ```
 
    Then submit `https://fauziyatfolashade.com/sitemap.xml` in Google Search
-   Console and link the domain as an additional verification method.
+   Console and add the domain as an additional verification method.
+
+### Deploying without Vercel
+
+`dist/` is a plain static folder — drop it on Netlify, Cloudflare Pages, GitHub
+Pages or any web server. `npm run build` produces it and nothing else is needed.
+
+### Previewing the built output locally
+
+```bash
+npm run build
+npx serve dist          # or any static file server pointed at dist/
+```
 
 ---
 

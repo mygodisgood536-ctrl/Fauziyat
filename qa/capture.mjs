@@ -5,7 +5,7 @@
  * writes screenshots plus an overflow / console report to qa/out/.
  *
  * Chrome clamps a headless window to roughly 500px wide, so anything narrower
- * is rendered inside a same-origin iframe (qa/_frame.html is regenerated here)
+ * is rendered inside a same-origin iframe (served in-memory at /__qa_frame)
  * rather than by resizing the browser window.
  *
  *   npm run qa              full matrix
@@ -16,12 +16,13 @@ import { spawn } from 'node:child_process';
 import { createServer } from 'node:http';
 import { readFile, writeFile, stat, rm, mkdir } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
-import { extname, join, normalize, dirname } from 'node:path';
+import { extname, join, normalize, dirname, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
 import { fileURLToPath } from 'node:url';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const ROOT = dirname(HERE);
+/* Point at the built artifact with QA_ROOT=dist to shoot what actually ships. */
+const ROOT = process.env.QA_ROOT ? resolve(process.env.QA_ROOT) : dirname(HERE);
 const OUT = join(HERE, 'out');
 const PORT = Number(process.env.QA_PORT) || 4319;
 
@@ -123,10 +124,19 @@ const FRAME = `<!doctype html>
 })();
 </script></body></html>`;
 
-/* Static server rooted at the repo. */
+/* Static server rooted at the repo (or at dist/, via QA_ROOT). The iframe
+   harness is served from memory so no scratch file is written into the tree
+   and the harness works whatever directory is being shot. */
+const FRAME_ROUTE = '/__qa_frame';
+
 const server = createServer(async (req, res) => {
   try {
     let rel = decodeURIComponent(new URL(req.url, 'http://x').pathname);
+    if (rel === FRAME_ROUTE) {
+      res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+      res.end(FRAME);
+      return;
+    }
     if (rel.endsWith('/')) rel += 'index.html';
     const path = join(ROOT, normalize(rel).replace(/^(\.\.[/\\])+/, ''));
     if (!path.startsWith(ROOT)) throw new Error('escape');
@@ -157,7 +167,7 @@ function chrome(args, timeoutMs = 90000) {
 }
 
 const frameUrl = (w, h, extra = '') =>
-  `http://127.0.0.1:${PORT}/qa/_frame.html?src=${encodeURIComponent('/')}` +
+  `http://127.0.0.1:${PORT}${FRAME_ROUTE}?src=${encodeURIComponent('/')}` +
   `&w=${w}&h=${h}${extra}`;
 
 const MATRIX = [
@@ -195,7 +205,6 @@ const only = (process.argv.find((a) => a.startsWith('--only=')) || '').slice(7);
 const fresh = !process.argv.includes('--keep');
 
 await new Promise((r) => server.listen(PORT, '127.0.0.1', r));
-await writeFile(join(HERE, '_frame.html'), FRAME, 'utf8');
 if (fresh) await rm(OUT, { recursive: true, force: true });
 await mkdir(OUT, { recursive: true });
 
