@@ -12,7 +12,7 @@
 
 .portrait--secondary {
   aspect-ratio: 236 / 432;
-  max-width: 260px;
+  max-width: clamp(200px, 26vw, 330px);
 }
 
 .portrait--secondary::before {
@@ -97,6 +97,12 @@
   box-shadow: 0 0 0 4px var(--bone-50);
 }
 
+/* Section is white, so the dot has to punch the white, not the sand tone. */
+.section--white .timeline__item::before { box-shadow: 0 0 0 4px #ffffff; }
+
+.timeline__rail,
+.timeline__body { min-width: 0; }
+
 .timeline__period {
   font-family: var(--font-mono);
   font-size: var(--fs-meta);
@@ -163,6 +169,17 @@
   }
 
   .about__figure { position: sticky; top: 104px; }
+
+  /* Role on the left rail, the substance of it on the right — the row then
+     spans the full measure instead of collapsing into a narrow column. */
+  .timeline__item {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr);
+    gap: clamp(2rem, 1rem + 4vw, 5rem);
+    align-items: start;
+  }
+
+  .timeline__note { margin-top: 0; }
 }
 
 @media (max-width: 480px) {

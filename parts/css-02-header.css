@@ -35,6 +35,8 @@
   display: inline-flex;
   align-items: center;
   gap: 0.7rem;
+  min-height: 44px;
+  padding-block: 0.25rem;
   text-decoration: none;
   flex-shrink: 0;
 }

@@ -152,7 +152,15 @@
   color: var(--text-faint);
 }
 
-.site-footer__nav ul { display: grid; gap: 0.6rem; }
+/* Footer links are bare text by default; padding them out to a full touch
+   target keeps the block looking light while remaining tappable on a phone. */
+.site-footer__nav ul { display: grid; }
+
+.site-footer__nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
 
 .site-footer a {
   color: var(--on-dark-muted);
@@ -162,7 +170,13 @@
 
 .site-footer a:hover { color: var(--clay-400); }
 
-.site-footer__contact { display: grid; gap: 0.6rem; align-content: start; }
+.site-footer__contact { display: grid; align-content: start; }
+
+.site-footer__contact a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
 
 .site-footer__base {
   padding-block: 1.35rem;

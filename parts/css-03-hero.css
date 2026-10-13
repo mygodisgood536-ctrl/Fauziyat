@@ -140,6 +140,26 @@
   .hero__figure { padding-right: 18px; }
 }
 
+@media (max-width: 960px) {
+  /* On a phone the portrait used to land ~1400px down, entirely below the
+     first screen. Tightening the hero lets it start appearing sooner. */
+  .hero { padding-top: clamp(4.5rem, 3rem + 6vw, 7rem); }
+  .hero__lede { max-width: 40ch; }
+}
+
+/* Tablet: still one column, but the portrait must not span the full measure —
+   at 768px a full-bleed image swallowed two screens while the copy sat in a
+   narrow strip beside it. */
+@media (min-width: 640px) and (max-width: 959px) {
+  .hero__lede { max-width: 54ch; }
+
+  .hero__figure {
+    max-width: 440px;
+    margin-inline: auto;
+    width: 100%;
+  }
+}
+
 @media (min-width: 960px) {
   .hero__inner {
     grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);

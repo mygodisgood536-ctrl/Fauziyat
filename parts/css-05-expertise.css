@@ -2,24 +2,19 @@
    05 · Expertise clusters + entity-visibility (dark) section
    ========================================================================== */
 
+/* An editorial index rather than a card grid: each area is a full-width row
+   separated by hairlines, so the section reads as a contents page. */
 .expertise {
-  display: grid;
-  gap: 1px;
   margin-top: clamp(2.25rem, 1.5rem + 3vw, 3.5rem);
-  background: var(--line);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  overflow: hidden;
+  border-top: 1px solid var(--bone-300);
 }
 
 .cluster {
-  position: relative;
-  padding: clamp(1.75rem, 1.2rem + 2vw, 2.5rem);
-  background: var(--bone-50);
-  transition: background-color 0.35s var(--ease);
+  display: grid;
+  gap: 1.15rem;
+  padding-block: clamp(1.85rem, 1.3rem + 2vw, 2.75rem);
+  border-bottom: 1px solid var(--bone-300);
 }
-
-.cluster:hover { background: #ffffff; }
 
 .cluster__num {
   font-family: var(--font-mono);
@@ -29,12 +24,13 @@
 }
 
 .cluster__title {
-  margin-top: 0.85rem;
-  font-size: var(--fs-h3);
+  margin-top: 0.7rem;
+  font-size: clamp(1.3rem, 1.05rem + 1.05vw, 1.9rem);
 }
 
+.cluster__main { min-width: 0; }
+
 .cluster__body {
-  margin-top: 0.85rem;
   font-size: var(--fs-sm);
   line-height: 1.7;
   color: var(--text-muted);
@@ -69,8 +65,12 @@
   background: var(--pine-600);
 }
 
-@media (min-width: 760px) {
-  .expertise { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (min-width: 900px) {
+  .cluster {
+    grid-template-columns: minmax(0, 0.72fr) minmax(0, 1fr);
+    gap: clamp(2rem, 1rem + 4vw, 5rem);
+    align-items: start;
+  }
 }
 
 /* ---------- the entity chain ---------- */

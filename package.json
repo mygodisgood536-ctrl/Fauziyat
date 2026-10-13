@@ -9,6 +9,9 @@
     "build": "node scripts/build.mjs",
     "test": "node --test \"tests/*.test.mjs\"",
     "serve": "node scripts/serve.mjs",
+    "qa": "npm run build && node qa/capture.mjs",
+    "qa:interact": "node qa/interact.mjs",
+    "og": "node scripts/og-image.mjs",
     "check": "npm run build && npm test"
   },
   "engines": {

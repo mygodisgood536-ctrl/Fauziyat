@@ -15,6 +15,10 @@
   --bone-200: #e8dfd0;
   --bone-300: #d7cbb6;
 
+  /* Section surfaces. bone-50 and white are too close to read as distinct
+     bands, so warm sections get their own, clearly deeper tone. */
+  --surface-sand: #f1e9db;
+
   /* Accents */
   --clay-600: #9a4f23;
   --clay-500: #b5642f;
@@ -124,8 +128,11 @@ ul, ol { list-style: none; padding: 0; }
 }
 
 .section { padding-block: var(--sp-section); }
-.section--bone { background: var(--bone-50); }
+.section--bone { background: var(--surface-sand); }
 .section--white { background: #ffffff; }
+
+/* Hairline that separates bands without needing a visible edge. */
+.section--white { border-block: 1px solid var(--line); }
 
 .section--ink {
   background: var(--ink-900);
@@ -206,12 +213,49 @@ ul, ol { list-style: none; padding: 0; }
 
 .section-lede--light { color: var(--on-dark-muted); }
 
-.prose { max-width: 40ch; margin-top: 1.5rem; }
+/* Two-column editorial header. The title anchors the left, the lede answers it
+   on the right, and both sit on one baseline — this is what stops every
+   section reading as a narrow left-aligned column with dead space beside it. */
+.section-head {
+  display: grid;
+  gap: 1.25rem;
+  align-items: end;
+}
+
+.section-head__lead { min-width: 0; }
+
+@media (min-width: 900px) {
+  .section-head {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    gap: clamp(2.5rem, 1rem + 5vw, 6rem);
+  }
+
+  .section-head .section-lede {
+    margin-top: 0;
+    padding-bottom: 0.4rem;
+  }
+}
+
+.prose { max-width: 44ch; margin-top: 1.5rem; }
 .prose p + p { margin-top: 1.05em; }
 .prose em { font-style: italic; color: var(--text); }
 
 @media (min-width: 900px) {
-  .prose { max-width: 48ch; }
+  .prose { max-width: 56ch; }
+}
+
+/* Below this the tracking rule pushes the eyebrow onto a second line where it
+   strands on its own, so the letters tighten and the rule is dropped. */
+@media (max-width: 520px) {
+  .eyebrow,
+  .section-index {
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    flex-wrap: wrap;
+  }
+
+  .eyebrow::after,
+  .section-index::after { display: none; }
 }
 /* ==========================================================================
    02 · Header, navigation, buttons
@@ -250,6 +294,8 @@ ul, ol { list-style: none; padding: 0; }
   display: inline-flex;
   align-items: center;
   gap: 0.7rem;
+  min-height: 44px;
+  padding-block: 0.25rem;
   text-decoration: none;
   flex-shrink: 0;
 }
@@ -547,6 +593,26 @@ ul, ol { list-style: none; padding: 0; }
   .hero__figure { padding-right: 18px; }
 }
 
+@media (max-width: 960px) {
+  /* On a phone the portrait used to land ~1400px down, entirely below the
+     first screen. Tightening the hero lets it start appearing sooner. */
+  .hero { padding-top: clamp(4.5rem, 3rem + 6vw, 7rem); }
+  .hero__lede { max-width: 40ch; }
+}
+
+/* Tablet: still one column, but the portrait must not span the full measure —
+   at 768px a full-bleed image swallowed two screens while the copy sat in a
+   narrow strip beside it. */
+@media (min-width: 640px) and (max-width: 959px) {
+  .hero__lede { max-width: 54ch; }
+
+  .hero__figure {
+    max-width: 440px;
+    margin-inline: auto;
+    width: 100%;
+  }
+}
+
 @media (min-width: 960px) {
   .hero__inner {
     grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
@@ -574,7 +640,7 @@ ul, ol { list-style: none; padding: 0; }
 
 .portrait--secondary {
   aspect-ratio: 236 / 432;
-  max-width: 260px;
+  max-width: clamp(200px, 26vw, 330px);
 }
 
 .portrait--secondary::before {
@@ -659,6 +725,12 @@ ul, ol { list-style: none; padding: 0; }
   box-shadow: 0 0 0 4px var(--bone-50);
 }
 
+/* Section is white, so the dot has to punch the white, not the sand tone. */
+.section--white .timeline__item::before { box-shadow: 0 0 0 4px #ffffff; }
+
+.timeline__rail,
+.timeline__body { min-width: 0; }
+
 .timeline__period {
   font-family: var(--font-mono);
   font-size: var(--fs-meta);
@@ -725,6 +797,17 @@ ul, ol { list-style: none; padding: 0; }
   }
 
   .about__figure { position: sticky; top: 104px; }
+
+  /* Role on the left rail, the substance of it on the right — the row then
+     spans the full measure instead of collapsing into a narrow column. */
+  .timeline__item {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr);
+    gap: clamp(2rem, 1rem + 4vw, 5rem);
+    align-items: start;
+  }
+
+  .timeline__note { margin-top: 0; }
 }
 
 @media (max-width: 480px) {
@@ -734,24 +817,19 @@ ul, ol { list-style: none; padding: 0; }
    05 · Expertise clusters + entity-visibility (dark) section
    ========================================================================== */
 
+/* An editorial index rather than a card grid: each area is a full-width row
+   separated by hairlines, so the section reads as a contents page. */
 .expertise {
-  display: grid;
-  gap: 1px;
   margin-top: clamp(2.25rem, 1.5rem + 3vw, 3.5rem);
-  background: var(--line);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  overflow: hidden;
+  border-top: 1px solid var(--bone-300);
 }
 
 .cluster {
-  position: relative;
-  padding: clamp(1.75rem, 1.2rem + 2vw, 2.5rem);
-  background: var(--bone-50);
-  transition: background-color 0.35s var(--ease);
+  display: grid;
+  gap: 1.15rem;
+  padding-block: clamp(1.85rem, 1.3rem + 2vw, 2.75rem);
+  border-bottom: 1px solid var(--bone-300);
 }
-
-.cluster:hover { background: #ffffff; }
 
 .cluster__num {
   font-family: var(--font-mono);
@@ -761,12 +839,13 @@ ul, ol { list-style: none; padding: 0; }
 }
 
 .cluster__title {
-  margin-top: 0.85rem;
-  font-size: var(--fs-h3);
+  margin-top: 0.7rem;
+  font-size: clamp(1.3rem, 1.05rem + 1.05vw, 1.9rem);
 }
 
+.cluster__main { min-width: 0; }
+
 .cluster__body {
-  margin-top: 0.85rem;
   font-size: var(--fs-sm);
   line-height: 1.7;
   color: var(--text-muted);
@@ -801,8 +880,12 @@ ul, ol { list-style: none; padding: 0; }
   background: var(--pine-600);
 }
 
-@media (min-width: 760px) {
-  .expertise { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (min-width: 900px) {
+  .cluster {
+    grid-template-columns: minmax(0, 0.72fr) minmax(0, 1fr);
+    gap: clamp(2rem, 1rem + 4vw, 5rem);
+    align-items: start;
+  }
 }
 
 /* ---------- the entity chain ---------- */
@@ -1090,7 +1173,15 @@ ul, ol { list-style: none; padding: 0; }
   color: var(--text-faint);
 }
 
-.site-footer__nav ul { display: grid; gap: 0.6rem; }
+/* Footer links are bare text by default; padding them out to a full touch
+   target keeps the block looking light while remaining tappable on a phone. */
+.site-footer__nav ul { display: grid; }
+
+.site-footer__nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
 
 .site-footer a {
   color: var(--on-dark-muted);
@@ -1100,7 +1191,13 @@ ul, ol { list-style: none; padding: 0; }
 
 .site-footer a:hover { color: var(--clay-400); }
 
-.site-footer__contact { display: grid; gap: 0.6rem; align-content: start; }
+.site-footer__contact { display: grid; align-content: start; }
+
+.site-footer__contact a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
 
 .site-footer__base {
   padding-block: 1.35rem;

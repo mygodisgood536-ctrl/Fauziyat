@@ -15,6 +15,10 @@
   --bone-200: #e8dfd0;
   --bone-300: #d7cbb6;
 
+  /* Section surfaces. bone-50 and white are too close to read as distinct
+     bands, so warm sections get their own, clearly deeper tone. */
+  --surface-sand: #f1e9db;
+
   /* Accents */
   --clay-600: #9a4f23;
   --clay-500: #b5642f;
@@ -124,8 +128,11 @@ ul, ol { list-style: none; padding: 0; }
 }
 
 .section { padding-block: var(--sp-section); }
-.section--bone { background: var(--bone-50); }
+.section--bone { background: var(--surface-sand); }
 .section--white { background: #ffffff; }
+
+/* Hairline that separates bands without needing a visible edge. */
+.section--white { border-block: 1px solid var(--line); }
 
 .section--ink {
   background: var(--ink-900);
@@ -206,10 +213,47 @@ ul, ol { list-style: none; padding: 0; }
 
 .section-lede--light { color: var(--on-dark-muted); }
 
-.prose { max-width: 40ch; margin-top: 1.5rem; }
+/* Two-column editorial header. The title anchors the left, the lede answers it
+   on the right, and both sit on one baseline — this is what stops every
+   section reading as a narrow left-aligned column with dead space beside it. */
+.section-head {
+  display: grid;
+  gap: 1.25rem;
+  align-items: end;
+}
+
+.section-head__lead { min-width: 0; }
+
+@media (min-width: 900px) {
+  .section-head {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    gap: clamp(2.5rem, 1rem + 5vw, 6rem);
+  }
+
+  .section-head .section-lede {
+    margin-top: 0;
+    padding-bottom: 0.4rem;
+  }
+}
+
+.prose { max-width: 44ch; margin-top: 1.5rem; }
 .prose p + p { margin-top: 1.05em; }
 .prose em { font-style: italic; color: var(--text); }
 
 @media (min-width: 900px) {
-  .prose { max-width: 48ch; }
+  .prose { max-width: 56ch; }
+}
+
+/* Below this the tracking rule pushes the eyebrow onto a second line where it
+   strands on its own, so the letters tighten and the rule is dropped. */
+@media (max-width: 520px) {
+  .eyebrow,
+  .section-index {
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    flex-wrap: wrap;
+  }
+
+  .eyebrow::after,
+  .section-index::after { display: none; }
 }
