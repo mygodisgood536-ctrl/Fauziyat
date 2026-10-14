@@ -66,7 +66,10 @@ test('sitemap and robots agree with the canonical URL', async () => {
 test('web manifest is valid JSON with a theme colour', async () => {
   const manifest = JSON.parse(await readFile(join(root, 'site.webmanifest'), 'utf8'));
   assert.ok(manifest.name.includes('Fauziyat Folashade'));
-  assert.equal(manifest.theme_color, '#101820');
+  // Theme colour must match the dark base defined in the stylesheet tokens.
+  const base = css.match(/--bg:\s*(#[0-9a-fA-F]{3,8})/);
+  assert.ok(base, 'stylesheet should define a --bg token');
+  assert.equal(manifest.theme_color.toLowerCase(), base[1].toLowerCase());
   assert.ok(Array.isArray(manifest.icons) && manifest.icons.length > 0);
 });
 
