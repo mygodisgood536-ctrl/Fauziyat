@@ -1,55 +1,100 @@
-
 <header class="site-header" data-header>
-  <div class="shell site-header__inner">
-    <a class="brand" href="#top">
-      <span class="brand__mark" aria-hidden="true">FF</span>
-      <span class="brand__name">Fauziyat&nbsp;Folashade</span>
+  <div class="site-header__bar shell">
+    <a class="wordmark" href="#top" aria-label="Fauziyat Folashade — home">
+      <span class="wordmark__mark" aria-hidden="true">FF</span>
+      <span class="wordmark__text">
+        <span class="wordmark__name">Fauziyat Folashade</span>
+        <span class="wordmark__role">Entity SEO &amp; Digital Identity</span>
+      </span>
     </a>
+
+    <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
+      <span class="nav-toggle__box" aria-hidden="true">
+        <span class="nav-toggle__line"></span>
+        <span class="nav-toggle__line"></span>
+        <span class="nav-toggle__line"></span>
+      </span>
+    </button>
 
     <nav class="site-nav" id="site-nav" aria-label="Primary">
       <ul class="site-nav__list">
         <li><a class="site-nav__link" href="#about">About</a></li>
-        <li><a class="site-nav__link" href="#experience">Experience</a></li>
+        <li><a class="site-nav__link" href="#experience">Journey</a></li>
         <li><a class="site-nav__link" href="#expertise">Expertise</a></li>
-        <li><a class="site-nav__link" href="#presence">Presence</a></li>
-        <li><a class="site-nav__link" href="#contact">Contact</a></li>
+        <li><a class="site-nav__link" href="#visibility">Visibility</a></li>
+        <li><a class="site-nav__link" href="#faq">FAQ</a></li>
       </ul>
+      <a class="btn btn--accent site-nav__cta" href="#contact">Start a conversation</a>
     </nav>
-
-    <div class="site-header__actions">
-      <a class="btn btn--primary btn--sm" href="https://wa.me/2349067224840" target="_blank" rel="noopener noreferrer">Let&rsquo;s talk</a>
-      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu" data-nav-toggle>
-        <span class="nav-toggle__bars" aria-hidden="true"></span>
-      </button>
-    </div>
   </div>
-  <div class="nav-scrim" data-nav-scrim hidden></div>
 </header>
+<div class="nav-scrim" data-nav-scrim hidden></div>
 
 <main id="main">
 
-  <section class="hero" aria-labelledby="hero-title">
+  <!-- ============================================================== HERO -->
+  <section class="hero" id="top" aria-labelledby="hero-title">
+    <div class="hero__glow" aria-hidden="true"></div>
     <div class="shell hero__inner">
-      <div class="hero__text">
-        <p class="eyebrow reveal">Entity SEO &middot; Search Visibility &middot; Digital Identity</p>
+      <div class="hero__content">
+        <p class="hero__eyebrow reveal">
+          <span class="hero__eyebrow-dot" aria-hidden="true"></span>
+          Search Engine Marketing Specialist · Based in Nigeria
+        </p>
+
         <h1 class="hero__title reveal" id="hero-title">
-          <span class="hero__title-line">Fauziyat</span>
-          <span class="hero__title-line hero__title-line--accent">Folashade</span>
+          I help people, brands and
+          <em>organisations</em> become
+          clearly understood online.
         </h1>
-        <p class="hero__role reveal">Search Engine Marketing Specialist</p>
-        <p class="hero__lede reveal">I build the digital identity behind people, brands and businesses &mdash; so search engines can clearly understand who an entity is, what it does, and how its information connects across trusted sources.</p>
+
+        <p class="hero__lede reveal">
+          I'm Fauziyat Folashade — a specialist in entity SEO, digital identity and
+          search visibility. My work sits at the point where a name, the information
+          connected to it, and the way search engines interpret it all come together
+          into one credible presence.
+        </p>
+
         <div class="hero__actions reveal">
-          <a class="btn btn--primary" href="https://wa.me/2349067224840" target="_blank" rel="noopener noreferrer">Message on WhatsApp</a>
-          <a class="btn btn--ghost" href="mailto:folashadefauziyat54@gmail.com">Send an email</a>
+          <a class="btn btn--accent btn--lg" href="https://wa.me/2349067224840" target="_blank" rel="noopener">
+            <span class="btn__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.13h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.84-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.36c0-4.54 3.7-8.23 8.24-8.23 2.2 0 4.26.86 5.81 2.42a8.16 8.16 0 0 1 2.41 5.82c0 4.54-3.7 8.23-8.22 8.23Zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.44.12-.14.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.41-.56-.42-.14-.01-.31-.01-.48-.01-.16 0-.43.06-.65.31-.23.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.74 2.66 4.21 3.73.59.25 1.05.4 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.08.14-1.18-.06-.11-.22-.17-.47-.29Z"/></svg>
+            </span>
+            Message on WhatsApp
+          </a>
+          <a class="btn btn--ghost btn--lg" href="#expertise">See what I do</a>
         </div>
-        <p class="hero__meta reveal"><span class="hero__meta-dot" aria-hidden="true"></span>Based in Nigeria</p>
+
+        <dl class="hero__stats reveal" aria-label="At a glance">
+          <div class="hero__stat">
+            <dt>Based in</dt>
+            <dd>Nigeria</dd>
+          </div>
+          <div class="hero__stat">
+            <dt>Primary focus</dt>
+            <dd>Entity SEO &amp; digital identity</dd>
+          </div>
+          <div class="hero__stat">
+            <dt>Specialism</dt>
+            <dd>Search visibility &amp; structured data</dd>
+          </div>
+        </dl>
       </div>
 
-      <figure class="hero__figure reveal">
-        <div class="portrait portrait--hero">
-          <img src="assets/img/fauziyat-folashade-portrait.jpg" width="442" height="452" alt="Fauziyat Folashade photographed outdoors, wearing a white hijab and a white graphic t-shirt." fetchpriority="high" decoding="async">
-        </div>
-        <figcaption class="portrait__caption"><span class="portrait__caption-key">Subject</span> Fauziyat Folashade &middot; Nigeria</figcaption>
-      </figure>
+      <div class="hero__portrait reveal">
+        <figure class="portrait">
+          <div class="portrait__frame">
+            <img
+              src="assets/img/fauziyat-folashade-portrait.jpg"
+              alt="Fauziyat Folashade, a Search Engine Marketing Specialist, standing outdoors with her arms crossed and smiling."
+              width="1196" height="1536"
+              fetchpriority="high" decoding="async">
+          </div>
+          <figcaption class="portrait__caption">
+            <span class="portrait__badge" aria-hidden="true">FF</span>
+            <span>Fauziyat Folashade — Search Engine Marketing Specialist</span>
+          </figcaption>
+        </figure>
+      </div>
     </div>
   </section>

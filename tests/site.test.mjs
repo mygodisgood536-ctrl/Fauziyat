@@ -70,7 +70,11 @@ test('links opening a new tab are safe', () => {
 
 test('images declare alt, dimensions and loading hints', () => {
   const imgs = [...html.matchAll(/<img\b[^>]*>/g)].map((m) => m[0]);
-  assert.ok(imgs.length >= 2, 'expected both supplied photographs to be used');
+  assert.ok(imgs.length >= 1, 'expected the supplied portrait to be used');
+  // The redesign uses exactly one portrait photograph of Fauziyat.
+  const srcs = new Set(imgs.map((t) => (t.match(/src="([^"]+)"/) || [])[1]).filter(Boolean));
+  const portraits = [...srcs].filter((s) => /fauziyat-folashade-portrait/.test(s));
+  assert.equal(portraits.length, 1, `expected exactly one portrait, found: ${portraits.join(', ')}`);
   for (const tag of imgs) {
     assert.match(tag, /alt="[^"]+"/, `missing alt: ${tag}`);
     assert.match(tag, /width="\d+"/, `missing width: ${tag}`);
@@ -91,10 +95,13 @@ test('supplied contact details are present and usable', () => {
   }
 });
 
-test('WhatsApp deep link uses E.164 without spaces or symbols', () => {
-  const bad = [...html.matchAll(/https:\/\/wa\.me\/[^"\s]+/g)].map((m) => m[0]);
+test('WhatsApp deep links use the E.164 number without stray symbols', () => {
+  const bad = [...html.matchAll(/https:\/\/wa\.me\/([^"?\s]+)/g)].map((m) => m[1]);
   assert.ok(bad.length > 0);
-  for (const link of bad) {
-    assert.equal(link, WHATSAPP, `unexpected WhatsApp link: ${link}`);
+  // Every wa.me link must target the supplied E.164 number. A ?text= prefill
+  // is allowed (and used) for a helpful opening message.
+  const e164 = WHATSAPP.replace('https://wa.me/', '');
+  for (const num of bad) {
+    assert.equal(num, e164, `unexpected WhatsApp number: ${num}`);
   }
 });

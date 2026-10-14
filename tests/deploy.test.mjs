@@ -123,7 +123,6 @@ test('dist/ exists after a build and contains the whole site', async () => {
     'assets/fonts/fonts.css', 'assets/fonts/inter-latin-var.woff2',
     'assets/fonts/fraunces-latin-var.woff2',
     'assets/img/fauziyat-folashade-portrait.jpg',
-    'assets/img/fauziyat-folashade-portrait-02.jpg',
     'assets/img/og-image.jpg',
   ];
   for (const file of required) {
