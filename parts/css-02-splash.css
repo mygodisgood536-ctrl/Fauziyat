@@ -1,85 +1,52 @@
 /* ============================================================== SPLASH INTRO
-   One full-screen welcome per browsing session. Shown only when <html> carries
-   .splash-on (set by the inline head script on first visit). It auto-dismisses
-   via a CSS animation that starts at 4s, so it can never get stuck even if JS
-   fails. main.js releases the body scroll-lock when the fade completes.
-   With JS off, .splash-on is never added, so no overlay and no scroll-lock
-   ever appear and the page is fully usable immediately. */
+   One full-screen welcome per browsing session. Shown only when <html>
+   carries .splash-on (set by the inline head script on first visit). It
+   auto-dismisses via a CSS animation that starts at 4s, so it can never get
+   stuck even if JS fails. main.js releases the body scroll-lock when the
+   fade completes. With JS off, .splash-on is never added, so no overlay and
+   no scroll-lock ever appear and the page is fully usable immediately. */
 .splash {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 24px;
+  position: fixed; inset: 0; z-index: 9999;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center; padding: 24px;
   background:
-    radial-gradient(120% 90% at 50% 0%, rgba(124,156,255,.20), transparent 60%),
-    radial-gradient(90% 80% at 50% 120%, rgba(95,214,196,.16), transparent 55%),
+    radial-gradient(120% 90% at 50% 0%, rgb(124 156 255 / .20), transparent 60%),
+    radial-gradient(90% 80% at 50% 120%, rgb(95 214 196 / .16), transparent 55%),
     var(--navy);
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
+  opacity: 0; visibility: hidden; pointer-events: none;
 }
 .js.splash-on .splash {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
+  opacity: 1; visibility: visible; pointer-events: auto;
   animation: splash-out .8s var(--ease) 4s forwards;
 }
 .js.splash-on body { overflow: hidden; }
 
-.splash__inner {
-  display: grid;
-  justify-items: center;
-  gap: 20px;
-  max-width: 640px;
-}
+.splash__inner { display: grid; justify-items: center; gap: 22px; max-width: 640px; }
 .js.splash-on .splash__inner { animation: splash-in .9s var(--ease) both; }
 
 .splash__mark {
-  display: grid;
-  place-items: center;
-  width: 96px;
-  height: 96px;
-  font-family: var(--ff-head);
-  font-weight: 600;
-  font-size: 36px;
-  letter-spacing: .02em;
-  color: var(--on-dark);
+  display: grid; place-items: center;
+  width: 92px; height: 92px;
+  font-family: var(--ff-head); font-weight: 600; font-size: 34px; letter-spacing: .02em;
+  color: var(--accent-ink);
   border-radius: 50%;
   border: 1px solid var(--line-strong);
-  background: linear-gradient(160deg, rgba(124,156,255,.24), rgba(95,214,196,.12));
+  background: linear-gradient(160deg, rgb(124 156 255 / .9), rgb(95 214 196 / .7));
   box-shadow: var(--shadow);
 }
-
 .splash__name {
-  margin: 0;
-  font-family: var(--ff-head);
-  font-weight: 600;
-  font-size: clamp(1.9rem, 6vw, 3.5rem);
-  line-height: 1.04;
-  letter-spacing: -.01em;
-  color: var(--on-dark);
-  text-transform: uppercase;
+  margin: 0; font-family: var(--ff-head); font-weight: 600;
+  font-size: clamp(1.9rem, 6vw, 3.4rem); line-height: 1.04; letter-spacing: -.01em;
+  color: var(--on-dark); text-transform: uppercase;
 }
-
 .splash__rule {
-  width: 68px;
-  height: 2px;
-  border-radius: 2px;
+  width: 64px; height: 2px; border-radius: 2px;
   background: linear-gradient(90deg, var(--accent), var(--teal));
 }
-
 .splash__tagline {
-  margin: 0;
-  font-family: var(--ff-body);
-  font-size: clamp(.92rem, 2.3vw, 1.12rem);
-  font-weight: 500;
-  letter-spacing: .16em;
-  color: var(--on-dark-muted);
-  text-transform: uppercase;
+  margin: 0; font-family: var(--ff-mono);
+  font-size: clamp(.82rem, 2.3vw, 1rem); font-weight: 500;
+  letter-spacing: .22em; color: var(--on-dark-muted); text-transform: uppercase;
 }
 
 @keyframes splash-in {

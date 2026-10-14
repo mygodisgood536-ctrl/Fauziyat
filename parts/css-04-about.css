@@ -1,43 +1,71 @@
-/* ============================================================== ABOUT */
-.about__inner { display: grid; grid-template-columns: 1.2fr .8fr; gap: clamp(2rem, 5vw, 4rem); align-items: start; }
-.about__text .section__title { max-width: 20ch; }
-.prose { margin-top: 1.5rem; display: grid; gap: 1.1rem; }
-.prose p { font-size: 1.05rem; color: var(--muted); line-height: 1.75; }
+/* ============================================================== ABOUT
+   Editorial two-column: a readable prose column (with a pull-quote) beside a
+   bordered surface card summarising the work. Elevated band for rhythm. */
+.about__inner {
+  display: grid; grid-template-columns: 1.25fr .75fr;
+  gap: clamp(2.5rem, 5vw, 4.5rem); align-items: start;
+}
+.about__text .section__title { margin-bottom: 1.5rem; }
+.prose p { color: var(--muted); font-size: 1.06rem; line-height: 1.75; }
+.prose p + p { margin-top: 1.1rem; }
 .prose strong { color: var(--ink); font-weight: 600; }
 
 .pull-quote {
-  margin: 2rem 0 0; padding: 1.25rem 0 1.25rem 1.5rem; border-left: 3px solid var(--accent-500);
+  margin: 2rem 0 0; padding: 1.25rem 0 1.25rem 1.5rem;
+  border-left: 2px solid var(--accent);
 }
-.pull-quote p { font-family: var(--ff-head); font-style: italic; font-size: 1.35rem; line-height: 1.4; color: var(--ink); }
+.pull-quote p {
+  font-family: var(--ff-head); font-size: clamp(1.25rem, 2.4vw, 1.6rem);
+  line-height: 1.3; color: var(--ink); letter-spacing: -0.01em;
+}
 
 .about__aside {
-  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg);
-  padding: 2rem; box-shadow: var(--shadow-sm); position: sticky; top: calc(var(--header-h) + 24px);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: clamp(1.5rem, 3vw, 2rem);
+  position: sticky; top: calc(var(--header-h) + 1.5rem);
 }
-.about__aside-title { font-size: 1.2rem; margin-bottom: 1.25rem; }
+.about__aside-title {
+  font-family: var(--ff-mono); font-size: .74rem; font-weight: 500;
+  letter-spacing: .18em; text-transform: uppercase; color: var(--on-dark-muted);
+  margin-bottom: 1.25rem;
+}
 .checklist { display: grid; gap: .85rem; }
-.checklist li { position: relative; padding-left: 2rem; font-size: .98rem; color: var(--text); }
+.checklist li {
+  display: grid; grid-template-columns: auto 1fr; gap: .7rem; align-items: start;
+  font-size: .96rem; color: var(--muted); line-height: 1.5;
+}
 .checklist li::before {
-  content: ""; position: absolute; left: 0; top: .35rem; width: 20px; height: 20px; border-radius: 50%;
-  background: rgba(95,214,196,.12) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235FD6C4' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center/12px no-repeat;
+  content: ""; margin-top: .45rem; width: 16px; height: 16px; flex: none;
+  border-radius: 50%; border: 1px solid var(--accent);
+  background:
+    linear-gradient(var(--accent), var(--accent)) center / 8px 8px no-repeat;
+  box-shadow: inset 0 0 0 2px var(--surface);
 }
 .about__aside-link {
-  display: inline-flex; align-items: center; gap: .5rem; margin-top: 1.75rem;
-  font-weight: 600; color: var(--teal); text-decoration: none; transition: gap var(--t) var(--ease), color var(--t) var(--ease);
+  display: inline-flex; align-items: center; gap: .5rem; margin-top: 1.5rem;
+  font-weight: 600; font-size: .95rem; color: var(--accent-300);
 }
-.about__aside-link:hover { gap: .85rem; color: var(--teal-600); }
+.about__aside-link:hover { color: var(--accent-500); }
+.about__aside-link svg { transition: transform var(--t) var(--ease); }
+.about__aside-link:hover svg { transform: translateX(3px); }
 
-/* ======================================================== JOURNEY / TIME */
-.journey { background: var(--bg-2); }
-.timeline { position: relative; max-width: 780px; padding-left: 2rem; }
-.timeline::before { content: ""; position: absolute; left: 7px; top: 6px; bottom: 6px; width: 2px; background: linear-gradient(var(--teal), var(--accent-500)); border-radius: 2px; }
-.timeline__item { position: relative; padding-bottom: .5rem; }
-.timeline__item::before {
-  content: ""; position: absolute; left: -2rem; top: 8px; width: 16px; height: 16px; border-radius: 50%;
-  background: var(--bg-2); border: 3px solid var(--teal); transform: translateX(0); box-shadow: 0 0 0 4px var(--bg-2);
+/* ============================================================= JOURNEY
+   A single, confident timeline entry with a mono period label. */
+.timeline { display: grid; gap: 1.5rem; max-width: 60rem; }
+.timeline__item {
+  display: grid; grid-template-columns: 12rem 1fr; gap: 2rem;
+  padding: 1.75rem; border: 1px solid var(--line); border-radius: var(--radius-lg);
+  background: var(--surface);
 }
-.timeline__period { font-size: .82rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); }
-.timeline__body { margin-top: .65rem; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.5rem 1.75rem; box-shadow: var(--shadow-sm); }
-.timeline__role { font-size: 1.4rem; }
-.timeline__org { margin-top: .25rem; font-weight: 600; color: var(--teal); }
-.timeline__desc { margin-top: .75rem; color: var(--muted); }
+.timeline__period {
+  font-family: var(--ff-mono); font-size: .8rem; letter-spacing: .04em;
+  color: var(--accent-300); padding-top: .2rem;
+}
+.timeline__role { font-size: 1.35rem; margin-bottom: .35rem; }
+.timeline__org {
+  font-family: var(--ff-mono); font-size: .82rem; letter-spacing: .04em;
+  color: var(--teal); margin-bottom: .9rem;
+}
+.timeline__desc { color: var(--muted); line-height: 1.7; max-width: 62ch; }

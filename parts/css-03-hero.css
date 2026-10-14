@@ -1,37 +1,89 @@
-/* ================================================================ HERO */
-.hero { position: relative; padding: clamp(3.5rem, 7vw, 6rem) 0 clamp(4rem, 8vw, 7rem); overflow: hidden; }
-.hero__glow { position: absolute; z-index: -1; pointer-events: none; width: 620px; height: 620px; right: -180px; top: -160px; border-radius: 50%;
-  background: radial-gradient(circle at center, rgba(124,156,255,.20), transparent 62%); }
-.hero__glow::after { content: ""; position: absolute; left: -420px; top: 340px; width: 520px; height: 520px; border-radius: 50%;
-  background: radial-gradient(circle at center, rgba(95,214,196,.14), transparent 62%); }
-.hero__inner { display: grid; grid-template-columns: 1.15fr .85fr; gap: clamp(2rem, 5vw, 4.5rem); align-items: center; }
+/* ============================================================== HERO
+   Editorial split: a wide text column with a mono eyebrow, a large serif
+   headline (one word emphasised in accent), a measured lede, two CTAs and a
+   hairline-divided stat row — beside the portrait in a framed, offset
+   treatment with a soft accent→mint glow behind it. */
+.hero { position: relative; padding: clamp(3.5rem, 7vw, 6rem) 0 clamp(3.5rem, 7vw, 6rem); overflow: clip; }
+.hero__glow {
+  position: absolute; inset: -20% -10% auto -10%; height: 70%;
+  background:
+    radial-gradient(50% 60% at 18% 0%, rgb(124 156 255 / .18), transparent 70%),
+    radial-gradient(45% 55% at 85% 10%, rgb(95 214 196 / .12), transparent 70%);
+  pointer-events: none; z-index: 0;
+}
+.hero__inner {
+  position: relative; z-index: 1;
+  display: grid; grid-template-columns: 1.15fr .85fr;
+  gap: clamp(2.5rem, 5vw, 4.5rem); align-items: center;
+}
 
-.hero__eyebrow { display: inline-flex; align-items: center; gap: .6rem;
-  font-size: .85rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
-  color: var(--teal); background: rgba(95,214,196,.08); border: 1px solid rgba(95,214,196,.22);
-  padding: .5rem 1rem; border-radius: 999px; margin-bottom: 1.5rem; }
-.hero__eyebrow-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-500); box-shadow: 0 0 0 4px rgba(124,156,255,.22); }
+.hero__eyebrow {
+  display: inline-flex; align-items: center; gap: .6rem;
+  font-family: var(--ff-mono); font-size: .76rem; font-weight: 500;
+  letter-spacing: .16em; text-transform: uppercase; color: var(--accent-300);
+  margin-bottom: 1.5rem;
+}
+.hero__eyebrow-dot {
+  width: 8px; height: 8px; border-radius: 50%; background: var(--teal);
+  box-shadow: 0 0 0 4px rgb(95 214 196 / .18);
+}
+.hero__title {
+  font-size: clamp(2.4rem, 5.6vw, 4.1rem);
+  line-height: 1.03; letter-spacing: -0.03em; max-width: 16ch;
+  margin-bottom: 1.5rem;
+}
+.hero__title em { font-style: normal; color: var(--accent); }
+.hero__tagline {
+  font-family: var(--ff-mono); font-size: clamp(.82rem, 1.5vw, .95rem);
+  letter-spacing: .12em; text-transform: uppercase; color: var(--teal);
+  margin-bottom: 1.25rem;
+}
+.hero__lede {
+  font-size: clamp(1.05rem, 1.6vw, 1.18rem); line-height: 1.7;
+  color: var(--muted); max-width: 52ch; margin-bottom: 2rem;
+}
+.hero__actions { display: flex; flex-wrap: wrap; gap: .9rem; margin-bottom: 2.75rem; }
 
-.hero__title { font-size: clamp(2.5rem, 5.6vw, 4.35rem); line-height: 1.03; max-width: 18ch; }
-.hero__title em { font-style: italic; color: var(--teal); }
-.hero__lede { margin-top: 1.5rem; font-size: 1.15rem; line-height: 1.7; color: var(--muted); max-width: 46ch; }
-.hero__actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2.2rem; }
+.hero__stats {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem; padding-top: 1.75rem; border-top: 1px solid var(--line);
+  max-width: 40rem;
+}
+.hero__stat dt {
+  font-family: var(--ff-mono); font-size: .68rem; font-weight: 500;
+  letter-spacing: .16em; text-transform: uppercase; color: var(--on-dark-muted);
+  margin-bottom: .4rem;
+}
+.hero__stat dd { font-family: var(--ff-head); font-size: 1.02rem; color: var(--ink); }
 
-.hero__stats { display: flex; flex-wrap: wrap; gap: 2.25rem; margin-top: 2.75rem; padding-top: 2rem; border-top: 1px solid var(--line); }
-.hero__stat dt { font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: .3rem; }
-.hero__stat dd { font-family: var(--ff-head); font-weight: 600; font-size: 1.12rem; color: var(--ink); }
-
-/* ============================================================ PORTRAIT */
-.hero__portrait { justify-self: center; }
-.portrait { position: relative; max-width: 360px; }
-.portrait__frame { position: relative; border-radius: 190px 190px 22px 22px; overflow: hidden;
-  background: var(--surface); box-shadow: var(--shadow-lg); border: 1px solid rgba(255,255,255,.10); }
-.portrait__frame::after { content: ""; position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(to top, rgba(6,10,18,.32), transparent 34%); }
-.portrait__frame img { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 20%; }
-.portrait__caption { display: flex; align-items: center; gap: .7rem; margin-top: 1.25rem; font-size: .9rem; color: var(--muted); }
-.portrait__badge { font-family: var(--ff-head); font-weight: 600; color: var(--on-dark);
-  width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; flex: none;
-  background: linear-gradient(150deg, var(--ink-2), var(--teal)); font-size: .9rem; }
-.portrait::before { content: ""; position: absolute; z-index: -1; width: 120px; height: 120px; left: -42px; bottom: 46px;
-  border-radius: 18px; background: var(--accent-300); opacity: .5; filter: blur(2px); }
+/* --- portrait: framed, offset, with a soft glow behind --- */
+.hero__portrait { position: relative; }
+.portrait { position: relative; }
+.portrait__frame {
+  position: relative; border-radius: var(--radius-xl); overflow: hidden;
+  border: 1px solid var(--line-strong);
+  box-shadow: var(--shadow-lg);
+  aspect-ratio: 4 / 5; background: var(--surface);
+}
+.portrait__frame::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 55%, rgb(7 10 18 / .35));
+  pointer-events: none;
+}
+.portrait__frame img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; }
+.portrait::before {
+  content: ""; position: absolute; inset: 12% -8% -8% 12%; z-index: -1;
+  border-radius: var(--radius-xl);
+  background: linear-gradient(150deg, rgb(124 156 255 / .28), rgb(95 214 196 / .18));
+  filter: blur(2px);
+}
+.portrait__caption {
+  display: flex; align-items: center; gap: .7rem; margin-top: 1rem;
+  font-size: .86rem; color: var(--muted);
+}
+.portrait__badge {
+  flex: none; display: grid; place-items: center;
+  width: 34px; height: 34px; border-radius: 9px;
+  font-family: var(--ff-head); font-weight: 600; font-size: .82rem; color: var(--accent-ink);
+  background: linear-gradient(150deg, var(--accent), var(--teal));
+}

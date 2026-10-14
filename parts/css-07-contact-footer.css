@@ -1,38 +1,73 @@
-/* ============================================================ CONTACT (dark) */
-.contact { background: linear-gradient(160deg, var(--ink) 0%, var(--ink-2) 55%, var(--teal) 135%); color: var(--on-dark); overflow: hidden; position: relative; }
-.contact__glow { position: absolute; z-index: 0; width: 560px; height: 560px; left: -160px; top: -180px; border-radius: 50%;
-  background: radial-gradient(circle at center, rgba(201,147,43,.24), transparent 62%); pointer-events: none; }
-.contact__inner { position: relative; z-index: 1; display: grid; grid-template-columns: 1.15fr .85fr; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
-.contact__lede { margin-top: 1.25rem; font-size: 1.12rem; line-height: 1.75; color: var(--on-dark-muted); max-width: 48ch; }
-.contact__actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2rem; }
-.contact__direct { margin-top: 1.75rem; color: var(--on-dark-muted); font-size: .98rem; }
-.contact__direct a { color: var(--on-dark); font-weight: 600; text-decoration: underline; text-decoration-color: rgba(227,192,121,.6); }
-.contact__direct a:hover { color: var(--accent-300); }
-
-.contact__card { background: rgba(255,255,255,.05); border: 1px solid rgba(243,239,229,.16); border-radius: var(--radius-lg); padding: 2rem; backdrop-filter: blur(6px); }
-.contact__card-title { font-size: 1.3rem; color: var(--on-dark); margin-bottom: 1.5rem; }
-.steps { display: grid; gap: 1.35rem; counter-reset: step; }
-.steps__item { display: flex; gap: 1rem; align-items: flex-start; }
-.steps__num {
-  flex: none; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center;
-  font-family: var(--ff-head); font-weight: 600; color: var(--ink);
-  background: linear-gradient(150deg, var(--accent-300), var(--accent-500)); font-size: .95rem;
+/* =========================================================== CONTACT
+   The closing invitation: a deep band with a glow, a large serif headline,
+   WhatsApp + email CTAs, a direct-details line, and a bordered "what happens
+   next" steps card. */
+.contact {
+  position: relative; overflow: clip;
+  background: var(--navy);
+  border-top: 1px solid var(--line);
 }
-.steps__item p { color: var(--on-dark-muted); line-height: 1.6; }
+.contact__glow {
+  position: absolute; inset: -30% -10% auto -10%; height: 80%;
+  background:
+    radial-gradient(45% 60% at 25% 0%, rgb(124 156 255 / .2), transparent 70%),
+    radial-gradient(45% 60% at 80% 10%, rgb(95 214 196 / .14), transparent 70%);
+  pointer-events: none;
+}
+.contact__inner {
+  position: relative; z-index: 1;
+  display: grid; grid-template-columns: 1.15fr .85fr;
+  gap: clamp(2.5rem, 5vw, 4.5rem); align-items: center;
+}
+.contact__lede { font-size: 1.1rem; line-height: 1.75; color: var(--muted); margin-top: 1.25rem; max-width: 50ch; }
+.contact__actions { display: flex; flex-wrap: wrap; gap: .9rem; margin: 2rem 0 1.5rem; }
+.contact__direct { font-size: .95rem; color: var(--on-dark-muted); line-height: 1.8; }
+.contact__direct a { color: var(--accent-300); }
+.contact__direct a:hover { color: var(--accent-500); }
 
-/* ============================================================== FOOTER */
-.site-footer { background: var(--ink); color: var(--on-dark-muted); padding: clamp(3rem, 6vw, 4.5rem) 0 2rem; }
-.site-footer__inner { display: grid; grid-template-columns: 1.3fr 1.7fr; gap: clamp(2rem, 5vw, 4rem); padding-bottom: 2.5rem; border-bottom: 1px solid rgba(243,239,229,.12); }
-.wordmark--footer .wordmark__name { color: var(--on-dark); }
-.wordmark--footer .wordmark__role { color: var(--accent-300); }
-.wordmark--footer .wordmark__mark { background: linear-gradient(150deg, var(--accent-500), var(--accent-300)); color: var(--ink); }
-.site-footer__tagline { margin-top: 1.25rem; max-width: 40ch; line-height: 1.7; }
+.contact__card {
+  padding: clamp(1.5rem, 3vw, 2rem);
+  border: 1px solid var(--line-strong); border-radius: var(--radius-lg);
+  background: var(--surface);
+}
+.contact__card-title {
+  font-family: var(--ff-mono); font-size: .74rem; font-weight: 500;
+  letter-spacing: .18em; text-transform: uppercase; color: var(--on-dark-muted);
+  margin-bottom: 1.35rem;
+}
+.steps { display: grid; gap: 1.35rem; }
+.steps__item { display: grid; grid-template-columns: auto 1fr; gap: 1rem; align-items: start; }
+.steps__num {
+  flex: none; display: grid; place-items: center; width: 30px; height: 30px;
+  border-radius: 50%; font-family: var(--ff-mono); font-size: .82rem; color: var(--accent-ink);
+  background: linear-gradient(150deg, var(--accent), var(--teal));
+}
+.steps__item p { color: var(--muted); font-size: .96rem; line-height: 1.6; }
 
-.site-footer__nav { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-.site-footer__heading { font-family: var(--ff-body); font-size: .78rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--on-dark); margin-bottom: 1rem; }
+/* ============================================================= FOOTER
+   A deep, multi-column footer: brand + tagline on one side, three hairline
+   nav columns (Explore / More / Connect), over a base bar. */
+.site-footer { background: var(--navy); border-top: 1px solid var(--line); }
+.site-footer__inner {
+  display: grid; grid-template-columns: 1.3fr 1.7fr;
+  gap: clamp(2.5rem, 5vw, 4rem);
+  padding: clamp(3rem, 6vw, 4.5rem) 0;
+}
+.site-footer__tagline { color: var(--muted); margin-top: 1.25rem; max-width: 34ch; line-height: 1.7; font-size: .96rem; }
+
+.site-footer__nav { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem; }
+.site-footer__heading {
+  font-family: var(--ff-mono); font-size: .72rem; font-weight: 500;
+  letter-spacing: .18em; text-transform: uppercase; color: var(--on-dark-muted);
+  margin-bottom: 1.1rem;
+}
 .site-footer__col ul { display: grid; gap: .7rem; }
-.site-footer__col a { color: var(--on-dark-muted); text-decoration: none; transition: color var(--t) var(--ease); }
-.site-footer__col a:hover { color: var(--accent-300); }
+.site-footer__col a { color: var(--muted); font-size: .95rem; text-decoration: none; transition: color var(--t) var(--ease); }
+.site-footer__col a:hover { color: var(--ink); }
 
-.site-footer__base { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; padding-top: 1.75rem; font-size: .9rem; }
-.site-footer__place { color: var(--accent-300); }
+.site-footer__base {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: .75rem; padding: 1.5rem 0; border-top: 1px solid var(--line);
+  font-size: .86rem; color: var(--on-dark-muted);
+}
+.site-footer__place { color: var(--on-dark-muted); }
