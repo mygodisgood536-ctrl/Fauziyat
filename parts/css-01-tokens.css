@@ -4,25 +4,32 @@
    rhythm. Distinctive, professional, and built to carry a personal brand
    in entity SEO and digital identity. */
 :root {
-  --ink:        #0D2E29;
-  --ink-2:      #123C35;
-  --teal:       #14524A;
-  --teal-600:   #17675A;
-  --teal-100:   #D9E6E1;
-  --accent:     #B8860F;
-  --accent-500: #C9932B;
-  --accent-300: #E4C079;
+  /* Dark-navy premium system — the visual direction of the reference:
+     deep navy base, elevated surfaces, indigo accent, mint secondary. */
+  --ink:        #F3F6FC;   /* headings (light) */
+  --ink-2:      #101728;   /* deep navy surface (logo gradient, etc.) */
+  --teal:       #5FD6C4;   /* mint accent / links */
+  --teal-600:   #7FE3D3;
+  --teal-100:   #0F1C22;   /* dark teal-tinted card surface */
+  --accent:     #7C9CFF;   /* indigo */
+  --accent-500: #A5BCFF;
+  --accent-300: #C7D6FF;
 
-  --bg:         #F6F2E9;
-  --bg-2:       #EFE9DA;
-  --surface:    #FFFFFF;
-  --line:       #E3DACA;
-  --line-strong:#CFC4AC;
+  --bg:         #070A12;   /* page base */
+  --bg-2:       #0A0F1A;   /* tinted section */
+  --surface:    #101728;   /* cards */
+  --surface-2:  #151D31;   /* raised surfaces */
+  --line:       rgba(255,255,255,.08);
+  --line-strong:rgba(255,255,255,.18);
 
-  --text:       #17211F;
-  --muted:      #55605C;
-  --on-dark:    #F3EFE5;
-  --on-dark-muted:#B9C8C3;
+  --text:       #E6EAF2;
+  --muted:      #9AA3B5;
+  --on-dark:    #F3F6FC;
+  --on-dark-muted:#A2AABC;
+
+  /* dedicated deep navy for full-bleed colour-blocks */
+  --navy:       #060A12;
+  --navy-2:     #0E1730;
 
   --shell: 1200px;
   --radius-sm: 10px;
@@ -32,9 +39,9 @@
   --ff-head: 'Fraunces', Georgia, 'Times New Roman', serif;
   --ff-body: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 
-  --shadow-sm: 0 1px 2px rgba(13,46,41,.06), 0 2px 6px rgba(13,46,41,.05);
-  --shadow:    0 10px 30px rgba(13,46,41,.10);
-  --shadow-lg: 0 24px 60px rgba(13,46,41,.16);
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.4), 0 2px 6px rgba(0,0,0,.3);
+  --shadow:    0 12px 34px rgba(0,0,0,.45);
+  --shadow-lg: 0 28px 64px rgba(0,0,0,.55);
 
   --ease: cubic-bezier(.22,.61,.36,1);
   --t: .35s;
@@ -67,11 +74,11 @@ h1, h2, h3 { font-family: var(--ff-head); font-weight: 600; line-height: 1.08; l
 
 .skip-link {
   position: absolute; left: 16px; top: -60px; z-index: 200;
-  background: var(--ink); color: var(--on-dark);
+  background: var(--accent-500); color: var(--navy);
   padding: 10px 16px; border-radius: 0 0 10px 10px; text-decoration: none;
   transition: top .2s var(--ease);
 }
-.skip-link:focus { top: 0; color: var(--on-dark); }
+.skip-link:focus { top: 0; color: var(--navy); }
 
 /* ============================================================ LAYOUT BASE */
 .shell { width: min(100% - 2.5rem, var(--shell)); margin-inline: auto; }
@@ -104,7 +111,7 @@ main { display: block; }
 /* ================================================================ BUTTONS */
 .btn {
   --btn-bg: var(--teal);
-  --btn-fg: #fff;
+  --btn-fg: #06101f;
   --btn-bd: transparent;
   display: inline-flex; align-items: center; justify-content: center; gap: .6rem;
   font-family: var(--ff-body); font-weight: 600; font-size: 1rem; line-height: 1;
@@ -130,7 +137,7 @@ main { display: block; }
 .btn--ghost:hover { --btn-bd: var(--teal); --btn-fg: var(--teal); color: var(--teal); box-shadow: var(--shadow-sm); }
 
 .btn--outline-light { --btn-bg: transparent; --btn-fg: var(--on-dark); --btn-bd: rgba(243,239,229,.4); box-shadow: none; }
-.btn--outline-light:hover { --btn-bg: rgba(243,239,229,.1); --btn-bd: var(--on-dark); color: #fff; }
+.btn--outline-light:hover { --btn-bg: rgba(243,246,252,.12); --btn-bd: var(--on-dark); color: #fff; }
 
 /* ============================================================ REVEAL ANIM */
 .js .reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s var(--ease), transform .7s var(--ease); }

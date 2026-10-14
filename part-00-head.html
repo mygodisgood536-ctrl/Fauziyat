@@ -41,7 +41,25 @@
 <link rel="stylesheet" href="assets/fonts/fonts.css">
 <link rel="stylesheet" href="assets/css/styles.css">
 
-  <script>document.documentElement.classList.add("js");</script>
+  <script>
+    /* Session-gated intro. Sets a session flag so the splash shows only once
+       per browsing session; repeat visits add .no-splash before paint (no flash).
+       Scroll is locked during the intro and released by main.js. If JS is off,
+       none of this runs: the CSS auto-dismiss animation still clears the splash,
+       and no scroll lock is ever applied. */
+    (function () {
+      var d = document.documentElement;
+      d.classList.add("js");
+      try {
+        if (window.sessionStorage.getItem("fz_splash_seen") === "1") {
+          d.classList.add("no-splash");
+          return;
+        }
+        window.sessionStorage.setItem("fz_splash_seen", "1");
+      } catch (e) { /* storage blocked: show the splash once, it still auto-dismisses */ }
+      d.classList.add("splash-on");
+    })();
+  </script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -82,3 +100,15 @@
 <body>
 <a class="skip-link" href="#main">Skip to main content</a>
 <span id="top"></span>
+
+<!-- Intro splash: shown once per browsing session, auto-dismisses after ~4s.
+     No skip/click required; a CSS animation clears it and main.js releases the
+     body scroll-lock, so it can never trap the visitor. -->
+<div class="splash" id="splash" role="dialog" aria-label="Welcome">
+  <div class="splash__inner">
+    <span class="splash__mark" aria-hidden="true">FF</span>
+    <p class="splash__name">Fauziyat Folashade</p>
+    <span class="splash__rule" aria-hidden="true"></span>
+    <p class="splash__tagline">Welcome to My Digital Space.</p>
+  </div>
+</div>

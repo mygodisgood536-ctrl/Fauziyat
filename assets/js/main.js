@@ -15,6 +15,23 @@
     yearEl.textContent = String(new Date().getFullYear());
   }
 
+  /* ---------- intro splash: release the scroll-lock when it finishes ----------
+     The inline head script adds .splash-on on first visit and CSS fades the
+     splash out at ~4s. The body scroll-lock it applies must be lifted here.
+     Both an animationend hook and a hard timeout guarantee release, so the
+     intro can never get stuck (e.g. if the tab was backgrounded and the CSS
+     animation was paused, or animationend never fires). */
+  var splash = document.querySelector('.splash');
+  if (splash && document.documentElement.classList.contains('splash-on')) {
+    var releaseSplash = function () {
+      document.documentElement.classList.remove('splash-on');
+    };
+    splash.addEventListener('animationend', function (e) {
+      if (e.animationName === 'splash-out') releaseSplash();
+    });
+    window.setTimeout(releaseSplash, 5200);
+  }
+
   /* ---------- header "stuck" state ---------- */
   var header = document.querySelector('[data-header]');
   if (header) {

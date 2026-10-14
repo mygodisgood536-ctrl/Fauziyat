@@ -19,7 +19,7 @@
 .checklist li { position: relative; padding-left: 2rem; font-size: .98rem; color: var(--text); }
 .checklist li::before {
   content: ""; position: absolute; left: 0; top: .35rem; width: 20px; height: 20px; border-radius: 50%;
-  background: var(--teal-100) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2314524A' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center/12px no-repeat;
+  background: rgba(95,214,196,.12) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235FD6C4' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center/12px no-repeat;
 }
 .about__aside-link {
   display: inline-flex; align-items: center; gap: .5rem; margin-top: 1.75rem;
@@ -41,13 +41,3 @@
 .timeline__role { font-size: 1.4rem; }
 .timeline__org { margin-top: .25rem; font-weight: 600; color: var(--teal); }
 .timeline__desc { margin-top: .75rem; color: var(--muted); }
-
-/* ========================================================= EDUCATION */
-.education__inner { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
-.education__card {
-  display: flex; gap: 1.25rem; align-items: flex-start;
-  background: var(--teal-100); border: 1px solid rgba(20,82,74,.16); border-radius: var(--radius-lg); padding: 1.75rem;
-}
-.education__icon { flex: none; width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center; background: var(--surface); color: var(--teal); box-shadow: var(--shadow-sm); }
-.education__note { color: var(--ink); line-height: 1.65; }
-.education__note a { color: var(--teal); font-weight: 600; }

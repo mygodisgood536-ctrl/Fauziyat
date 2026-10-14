@@ -1,16 +1,16 @@
 /* ================================================================ HERO */
 .hero { position: relative; padding: clamp(3.5rem, 7vw, 6rem) 0 clamp(4rem, 8vw, 7rem); overflow: hidden; }
 .hero__glow { position: absolute; z-index: -1; pointer-events: none; width: 620px; height: 620px; right: -180px; top: -160px; border-radius: 50%;
-  background: radial-gradient(circle at center, rgba(201,147,43,.18), transparent 62%); }
+  background: radial-gradient(circle at center, rgba(124,156,255,.20), transparent 62%); }
 .hero__glow::after { content: ""; position: absolute; left: -420px; top: 340px; width: 520px; height: 520px; border-radius: 50%;
-  background: radial-gradient(circle at center, rgba(20,82,74,.14), transparent 62%); }
+  background: radial-gradient(circle at center, rgba(95,214,196,.14), transparent 62%); }
 .hero__inner { display: grid; grid-template-columns: 1.15fr .85fr; gap: clamp(2rem, 5vw, 4.5rem); align-items: center; }
 
 .hero__eyebrow { display: inline-flex; align-items: center; gap: .6rem;
   font-size: .85rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
-  color: var(--teal); background: var(--teal-100); border: 1px solid rgba(20,82,74,.14);
+  color: var(--teal); background: rgba(95,214,196,.08); border: 1px solid rgba(95,214,196,.22);
   padding: .5rem 1rem; border-radius: 999px; margin-bottom: 1.5rem; }
-.hero__eyebrow-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-500); box-shadow: 0 0 0 4px rgba(201,147,43,.2); }
+.hero__eyebrow-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-500); box-shadow: 0 0 0 4px rgba(124,156,255,.22); }
 
 .hero__title { font-size: clamp(2.5rem, 5.6vw, 4.35rem); line-height: 1.03; max-width: 18ch; }
 .hero__title em { font-style: italic; color: var(--teal); }
@@ -25,9 +25,9 @@
 .hero__portrait { justify-self: center; }
 .portrait { position: relative; max-width: 360px; }
 .portrait__frame { position: relative; border-radius: 190px 190px 22px 22px; overflow: hidden;
-  background: var(--teal-100); box-shadow: var(--shadow-lg); border: 1px solid rgba(20,82,74,.12); }
+  background: var(--surface); box-shadow: var(--shadow-lg); border: 1px solid rgba(255,255,255,.10); }
 .portrait__frame::after { content: ""; position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(to top, rgba(13,46,41,.18), transparent 34%); }
+  background: linear-gradient(to top, rgba(6,10,18,.32), transparent 34%); }
 .portrait__frame img { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 20%; }
 .portrait__caption { display: flex; align-items: center; gap: .7rem; margin-top: 1.25rem; font-size: .9rem; color: var(--muted); }
 .portrait__badge { font-family: var(--ff-head); font-weight: 600; color: var(--on-dark);
