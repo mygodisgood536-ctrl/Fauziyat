@@ -62,7 +62,10 @@
 .portrait__frame {
   position: relative; border-radius: var(--radius-xl); overflow: hidden;
   border: 1px solid var(--line-strong);
-  box-shadow: var(--shadow-lg);
+  box-shadow:
+    var(--shadow-lg),
+    0 30px 70px -28px rgb(124 156 255 / .5),
+    0 30px 70px -30px rgb(95 214 196 / .4);
   aspect-ratio: 4 / 5; background: var(--surface);
 }
 .portrait__frame::after {
@@ -71,12 +74,6 @@
   pointer-events: none;
 }
 .portrait__frame img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; }
-.portrait::before {
-  content: ""; position: absolute; inset: 12% -8% -8% 12%; z-index: -1;
-  border-radius: var(--radius-xl);
-  background: linear-gradient(150deg, rgb(124 156 255 / .28), rgb(95 214 196 / .18));
-  filter: blur(2px);
-}
 .portrait__caption {
   display: flex; align-items: center; gap: .7rem; margin-top: 1rem;
   font-size: .86rem; color: var(--muted);
